@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee" version="2.5">
+
+    <context-param>
+        <param-name>slim3.rootPackage</param-name>
+        <param-value>com.trifork.lessor100</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+    <!--<filter>
+        <filter-name>HotReloadingFilter</filter-name>
+        <filter-class>org.slim3.controller.HotReloadingFilter</filter-class>
+    </filter>-->
+    <filter>
+        <filter-name>DatastoreFilter</filter-name>
+        <filter-class>org.slim3.datastore.DatastoreFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>FrontController</filter-name>
+        <filter-class>org.slim3.controller.FrontController</filter-class>
+    </filter>
+
+    <!--<filter-mapping>
+        <filter-name>HotReloadingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>DatastoreFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>FrontController</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+
+    <servlet>
+        <servlet-name>mailhandler</servlet-name>
+        <servlet-class>com.trifork.lessor100.email.EmailReceiverServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mailhandler</servlet-name>
+        <url-pattern>/_ah/mail/*</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>mail</web-resource-name>
+            <url-pattern>/_ah/mail/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+</web-app>
