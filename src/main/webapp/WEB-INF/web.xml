@@ -3,7 +3,7 @@
 
     <context-param>
         <param-name>slim3.rootPackage</param-name>
-        <param-value>com.trifork.lessor100</param-value>
+        <param-value>com.appspot.lessor100</param-value>
     </context-param>
 
     <context-param>
@@ -46,7 +46,7 @@
 
     <servlet>
         <servlet-name>mailhandler</servlet-name>
-        <servlet-class>com.trifork.lessor100.email.EmailReceiverServlet</servlet-class>
+        <servlet-class>com.appspot.lessor100.email.EmailReceiverServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>mailhandler</servlet-name>
