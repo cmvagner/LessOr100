@@ -62,7 +62,9 @@
     </div>
     <div class="content">
         ${param.content}
-        <c:import url="/footer.jsp"/>
+        <footer>
+            <p>&copy; LessOr100 2011</p>
+        </footer>
     </div>
 </div>
 
