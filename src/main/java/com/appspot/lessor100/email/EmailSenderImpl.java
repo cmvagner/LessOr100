@@ -1,9 +1,18 @@
 package com.appspot.lessor100.email;
 
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.stereotype.Service;
+
+import com.appspot.lessor100.Constants;
 
 @Service
 public class EmailSenderImpl implements EmailSender {
@@ -15,21 +24,20 @@ public class EmailSenderImpl implements EmailSender {
         logger.log(Level.SEVERE, "sendErrorReportEmail = " + email, email);
     }
 
-    public void send(String email, String subject, String msgBody) {
-        /*log.debug("Processing send for " + subject + " at " + new Date());
+    @Override
+    public void sendEmail(String receiver, String subject, String body) {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(ADMIN_EMAIL));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                    email));
+            msg.setFrom(new InternetAddress("notification@" + Constants.APP_MAIL_DOMAIN));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
             msg.setSubject(subject);
-            msg.setContent(msgBody, "text/html");
+            msg.setText(body);
             Transport.send(msg);
-            log.debug("sending mail to " + email);
+
         } catch (Exception e) {
-            log.error("sender is " + ADMIN_EMAIL, e);
-        }*/
+            logger.log(Level.SEVERE, "could not send email to " + receiver, e);
+        }
     }
 }

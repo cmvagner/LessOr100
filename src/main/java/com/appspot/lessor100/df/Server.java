@@ -1,6 +1,7 @@
 package com.appspot.lessor100.df;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.InverseModelListRef;
@@ -12,6 +13,8 @@ import com.google.appengine.api.datastore.Query;
 
 @Model
 public class Server {
+
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     @Attribute(primaryKey = true)
     private Key key;
@@ -58,5 +61,16 @@ public class Server {
             return mountGroups.get(0);
         }
         return null;
+    }
+
+    public boolean isEqualOrAboveThreshold(Mount mount) {
+        List<Threshold> thresholds = getThresholdListRef().getModelList();
+        for (Threshold threshold : thresholds) {
+            if (threshold.getMount().equals(mount.getMountedOn()) && mount.getUsageInPercent() >= threshold.getThreshold()) {
+                logger.info(String.format("mount %s has usage of %s which is above threshold %s", mount.getMountedOn(), mount.getUsageInPercent(), threshold.getThreshold()));
+                return true;
+            }
+        }
+        return false;
     }
 }

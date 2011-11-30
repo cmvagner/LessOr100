@@ -1,6 +1,7 @@
 package com.appspot.lessor100.df;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,17 +12,24 @@ import com.appspot.lessor100.email.Email;
 @Service
 public class DiskFreeEmailHandlerImpl implements DiskFreeEmailHandler {
 
+    private static final Logger logger = Logger.getLogger(DiskFreeEmailHandlerImpl.class.getName());
+
     @Autowired
     private DiskFreeParser diskFreeParser;
 
     @Autowired
     private ServerRepository serverRepository;
 
+    @Autowired
+    private ThresholdNotificationService thresholdNotificationService;
+
     @Override
     public void process(Email email) {
         String contentToParse = getContentToParse(email);
         List<Mount> mounts = diskFreeParser.parse(contentToParse);
-        serverRepository.saveMounts(mounts, getServerName(email));
+        String serverName = getServerName(email);
+        serverRepository.saveMounts(mounts, serverName);
+        thresholdNotificationService.newMountsReceived(serverRepository.findByName(serverName));
     }
 
     private String getContentToParse(Email email) {
@@ -32,8 +40,10 @@ public class DiskFreeEmailHandlerImpl implements DiskFreeEmailHandler {
             //we only process the first attachment whether or not the mail has more then one attachment.
             Attachment attachment = attachments.get(0);
             contentToParse = new String(attachment.getContent());
+            logger.fine("using attachment from email as df content");
         } else {
             contentToParse = email.getBody().getValue();
+            logger.fine("using email body as df content");
         }
         return contentToParse;
     }
