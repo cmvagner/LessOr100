@@ -50,6 +50,6 @@ public class DiskFreeEmailHandlerImpl implements DiskFreeEmailHandler {
 
     private String getServerName(Email email) {
         //here we use the address before the at sign. Another alternative to be to include the server name in the to address like df-ewpback20@lessor100...
-        return email.getFrom().substring(email.getFrom().indexOf("@") + 1);
+        return email.getFrom().substring(0, email.getFrom().indexOf("@"));
     }
 }
