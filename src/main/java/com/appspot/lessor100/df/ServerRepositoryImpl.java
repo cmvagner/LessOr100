@@ -5,17 +5,32 @@ import java.util.List;
 import org.slim3.datastore.Datastore;
 import org.springframework.stereotype.Repository;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Query;
 import com.appspot.lessor100.datastore.AbstractDataStoreRepository;
 import com.appspot.lessor100.datastore.TransactionCallback;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query;
 
 @Repository
 public class ServerRepositoryImpl extends AbstractDataStoreRepository implements ServerRepository {
 
     @Override
+    public Server findByKey(Key key) {
+        return Datastore.get(Server.class, key);
+    }
+
+    @Override
     public Server findByName(String serverName) {
         return Datastore.query(Server.class).filter("name", Query.FilterOperator.EQUAL, serverName).asSingle();
+    }
+
+    @Override
+    public void saveServer(final String serverName) {
+        doDataStoreOperation(new TransactionCallback() {
+            @Override
+            public void doInTransaction() {
+                Datastore.put(new Server(serverName));
+            }
+        });
     }
 
     @Override
@@ -41,6 +56,18 @@ public class ServerRepositoryImpl extends AbstractDataStoreRepository implements
                     mount.getMountGroupRef().setModel(mountGroup);
                 }
                 Datastore.put(mounts);
+            }
+        });
+    }
+
+    @Override
+    public void saveThreshold(final Threshold threshold, final Server server) {
+        doDataStoreOperation(new TransactionCallback() {
+            @Override
+            public void doInTransaction() {
+                threshold.setKey(Datastore.allocateId(server.getKey(), Threshold.class));
+                threshold.getServerRef().setModel(server);
+                Datastore.put(threshold);
             }
         });
     }

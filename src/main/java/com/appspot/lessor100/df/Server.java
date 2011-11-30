@@ -18,6 +18,8 @@ public class Server {
     private String name;
     @Attribute(persistent = false)
     private InverseModelListRef<MountGroup, Server> mountListRef = new InverseModelListRef<MountGroup, Server>(MountGroup.class, MountGroupMeta.get().serverRef.getName(), this, new Sort(MountGroupMeta.get().createdAt.getName(), Query.SortDirection.DESCENDING));
+    @Attribute(persistent = false)
+    private InverseModelListRef<Threshold, Server> thresholdListRef = new InverseModelListRef<Threshold, Server>(Threshold.class, ThresholdMeta.get().serverRef.getName(), this);
 
     public Server() {
     }
@@ -44,6 +46,10 @@ public class Server {
 
     public InverseModelListRef<MountGroup, Server> getMountListRef() {
         return mountListRef;
+    }
+
+    public InverseModelListRef<Threshold, Server> getThresholdListRef() {
+        return thresholdListRef;
     }
 
     public MountGroup getLatestMountGroup() {

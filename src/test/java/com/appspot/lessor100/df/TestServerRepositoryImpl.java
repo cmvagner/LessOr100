@@ -41,4 +41,19 @@ public class TestServerRepositoryImpl extends AppEngineTestCase {
         mounts = mountGroup.getMountListRef().getModelList();
         Assert.assertEquals(2, mounts.size());
     }
+
+    @Test
+    public void testSaveThreshold() throws Exception {
+        String serverName = "test";
+        serverRepository.saveServer(serverName);
+        Server server = serverRepository.findByName(serverName);
+
+        Threshold threshold = new Threshold();
+        threshold.setMount("/var");
+        threshold.setThreshold(90.0);
+        serverRepository.saveThreshold(threshold, server);
+
+        List<Threshold> thresholds = server.getThresholdListRef().getModelList();
+        Assert.assertEquals(1, thresholds.size());
+    }
 }

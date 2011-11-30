@@ -27,7 +27,7 @@
                 <h1>Servers</h1>
                 <c:forEach var="server" items="${servers}">
                     <c:set var="mountGroup" value="${server.latestMountGroup}"/>
-                    <h2>${f:h(server.name)}, <fmt:formatDate value="${mountGroup.createdAt}" type="both" timeStyle="medium" dateStyle="medium"/></h2>
+                    <h2>${f:h(server.name)} <fmt:formatDate value="${mountGroup.createdAt}" type="both" timeStyle="medium" dateStyle="medium"/></h2>
                     <table class="bordered-table zebra-striped">
                         <thead>
                         <tr>
@@ -40,7 +40,7 @@
                         <c:forEach var="mount" items="${mountGroup.mountListRef.modelList}">
                             <tr>
                                 <td style="vertical-align: middle;">${f:h(mount.mountedOn)}</td>
-                                <td style="vertical-align: middle;">${f:h(mount.usageInPercent)}</td>
+                                <td style="vertical-align: middle;">${f:h(mount.usageInPercent)}%</td>
                                 <td id="${f:h(mount.key)}" style="vertical-align: middle;">
                                     <script type="text/javascript">
                                         drawDiskUsageChart('${f:h(mount.key)}', ${f:h(mount.usageInPercent)});

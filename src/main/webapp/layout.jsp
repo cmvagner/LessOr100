@@ -51,7 +51,8 @@
             <h5>Servers</h5>
             <ul>
                 <li><a href="#">Overview</a></li>
-                <li><a href="${f:url('/df/servers')}">Servers</a></li>
+                <li><a href="${f:url('/df/server/')}">Servers</a></li>
+                <li><a href="${f:url('/df/threshold/create')}">Thresholds</a></li>
             </ul>
             <h5>Emails</h5>
             <ul>
