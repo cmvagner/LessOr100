@@ -31,7 +31,7 @@ public class TestEmailRepositoryImpl extends AppEngineTestCase {
         emailRepository.save(email);
         List<Email> emails = emailRepository.getAllIncomingEmails();
         Assert.assertEquals(2, emails.size());
-        email = emails.get(0);
+        email = emails.get(1);
         Assert.assertNotNull(email);
         attachments = email.getAttachmentListRef().getModelList();
         Assert.assertEquals(1, attachments.size());

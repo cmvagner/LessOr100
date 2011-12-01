@@ -11,7 +11,7 @@
                 <h1>Emails</h1>
 
                 <h2>Incoming</h2>
-                <table>
+                <table class="bordered-table zebra-striped">
 
                     <thead>
                     <tr>
@@ -19,21 +19,26 @@
                         <th>From</th>
                         <th>To</th>
                         <th>Subject</th>
-                        <th>Attachments</th>
                         <th>Body</th>
-                        <th>Action</th>
+                        <th>Attachments</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="email" items="${incomingEmails}">
                         <tr>
-                            <td><fmt:formatDate value="${email.createdAt}" type="both" timeStyle="medium" dateStyle="medium"/></td>
+                            <td><fmt:formatDate value="${email.createdAt}" pattern="dd-MM-yyyy HH:mm:ss"/></td>
                             <td>${f:h(email.from)}</td>
                             <td>${f:h(email.to)}</td>
                             <td>${f:h(email.subject)}</td>
-                            <td><c:out value="${fn:length(email.attachmentListRef.modelList)}" /></td>
                             <td>${f:h(email.body)}</td>
-                            <td>Delete</td>
+                            <td>
+                                <c:forEach var="attachment" items="${email.attachmentListRef.modelList}">
+                                    <a href="#">
+                                        <img src="/images/document_attachment.png" title="${attachment.fileName}" alt="${attachment.fileName}"/><br/>
+                                            ${attachment.fileName}
+                                    </a>
+                                </c:forEach>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

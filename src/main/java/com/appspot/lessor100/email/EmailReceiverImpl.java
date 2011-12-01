@@ -59,7 +59,7 @@ public class EmailReceiverImpl implements EmailReceiver {
                 }
                 attachments = getAttachments(multipart);
             }
-            email.setBody(new Text(body));
+            email.setBody(body);
             emailRepository.save(email, attachments);
             return email;
         } catch (Exception e) {

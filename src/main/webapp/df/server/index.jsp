@@ -1,3 +1,6 @@
+<%@ page import="com.appspot.lessor100.df.Server" %>
+<%@ page import="com.appspot.lessor100.df.Mount" %>
+<%@ page import="com.appspot.lessor100.df.Threshold" %>
 <%@page pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -33,6 +36,7 @@
                         <tr>
                             <th>Mount</th>
                             <th>Usage In Percent</th>
+                            <th>Threshold</th>
                             <th>Chart</th>
                         </tr>
                         </thead>
@@ -41,6 +45,14 @@
                             <tr>
                                 <td style="vertical-align: middle;">${f:h(mount.mountedOn)}</td>
                                 <td style="vertical-align: middle;">${f:h(mount.usageInPercent)}%</td>
+                                <td style="vertical-align: middle;">
+                                    <%
+                                        Server server = (Server) pageContext.getAttribute("server");
+                                        Mount mount = (Mount) pageContext.getAttribute("mount");
+                                        pageContext.setAttribute("threshold", server.getThresholdValue(mount));
+                                    %>
+                                    <c:out value="${threshold}"/>
+                                </td>
                                 <td id="${f:h(mount.key)}" style="vertical-align: middle;">
                                     <script type="text/javascript">
                                         drawDiskUsageChart('${f:h(mount.key)}', ${f:h(mount.usageInPercent)});

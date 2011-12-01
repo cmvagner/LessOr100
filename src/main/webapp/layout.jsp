@@ -48,11 +48,11 @@
 <div class="container-fluid">
     <div class="sidebar">
         <div class="well">
-            <h5>Servers</h5>
+            <h5>Disk Free</h5>
             <ul>
                 <li><a href="#">Overview</a></li>
                 <li><a href="${f:url('/df/server/')}">Servers</a></li>
-                <li><a href="${f:url('/df/threshold/create')}">Thresholds</a></li>
+                <li><a href="${f:url('/df/threshold/create')}">Threshold</a></li>
             </ul>
             <h5>Emails</h5>
             <ul>

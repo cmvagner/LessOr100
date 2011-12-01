@@ -26,8 +26,8 @@ public class Email {
     private String from;
     @Attribute
     private String subject;
-    @Attribute
-    private Text body;
+    @Attribute(lob = true)
+    private String body;
     @Attribute(persistent = false)
     private InverseModelListRef<Attachment, Email> attachmentListRef = new InverseModelListRef<Attachment, Email>(Attachment.class, AttachmentMeta.get().emailRef.getName(), this);
 
@@ -89,11 +89,11 @@ public class Email {
         this.subject = subject;
     }
 
-    public Text getBody() {
+    public String getBody() {
         return body;
     }
 
-    public void setBody(Text body) {
+    public void setBody(String body) {
         this.body = body;
     }
 
@@ -113,9 +113,4 @@ public class Email {
         sb.append('}');
         return sb.toString();
     }
-
-    /*public boolean hasAttachments() {
-        return getAttachments() != null && !getAttachments().isEmpty();
-    }*/
-
 }

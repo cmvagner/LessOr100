@@ -3,11 +3,13 @@ package com.appspot.lessor100.email;
 import java.util.List;
 
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.Sort;
 import org.springframework.stereotype.Repository;
 
-import com.google.appengine.api.datastore.Key;
 import com.appspot.lessor100.datastore.AbstractDataStoreRepository;
 import com.appspot.lessor100.datastore.TransactionCallback;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query;
 
 @Repository
 public class EmailRepositoryImpl extends AbstractDataStoreRepository implements EmailRepository {
@@ -51,6 +53,6 @@ public class EmailRepositoryImpl extends AbstractDataStoreRepository implements 
 
     private List<Email> queryForEmails(EmailType emailType) {
         EmailMeta emailMeta = EmailMeta.get();
-        return Datastore.query(emailMeta).filter(emailMeta.emailType.equal(emailType)).asList();
+        return Datastore.query(emailMeta).filter(emailMeta.emailType.equal(emailType)).sort(emailMeta.createdAt.desc).asList();
     }
 }

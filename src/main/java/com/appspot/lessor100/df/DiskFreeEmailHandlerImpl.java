@@ -42,7 +42,7 @@ public class DiskFreeEmailHandlerImpl implements DiskFreeEmailHandler {
             contentToParse = new String(attachment.getContent());
             logger.fine("using attachment from email as df content");
         } else {
-            contentToParse = email.getBody().getValue();
+            contentToParse = email.getBody();
             logger.fine("using email body as df content");
         }
         return contentToParse;

@@ -63,13 +63,26 @@ public class Server {
         return null;
     }
 
-    public boolean isEqualOrAboveThreshold(Mount mount) {
+    public double getThresholdValue(Mount mount) {
+        Threshold threshold = getThreshold(mount);
+        return threshold != null ? threshold.getThreshold() : 0;
+    }
+
+    public Threshold getThreshold(Mount mount) {
         List<Threshold> thresholds = getThresholdListRef().getModelList();
         for (Threshold threshold : thresholds) {
-            if (threshold.getMount().equals(mount.getMountedOn()) && mount.getUsageInPercent() >= threshold.getThreshold()) {
-                logger.info(String.format("mount %s has usage of %s which is above threshold %s", mount.getMountedOn(), mount.getUsageInPercent(), threshold.getThreshold()));
-                return true;
+            if (threshold.getMount().equals(mount.getMountedOn())) {
+                return threshold;
             }
+        }
+        return null;
+    }
+
+    public boolean isEqualOrAboveThreshold(Mount mount) {
+        Threshold threshold = getThreshold(mount);
+        if (threshold != null && mount.getUsageInPercent() >= threshold.getThreshold()) {
+            logger.info(String.format("mount %s has usage of %s which is above threshold %s", mount.getMountedOn(), mount.getUsageInPercent(), threshold.getThreshold()));
+            return true;
         }
         return false;
     }

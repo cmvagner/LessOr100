@@ -4,6 +4,7 @@ import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
 import org.slim3.datastore.ModelRef;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
 
 @Model
@@ -13,7 +14,7 @@ public class Attachment {
     private Key key;
     @Attribute
     private String fileName;
-    @Attribute
+    @Attribute(lob = true)
     private byte[] content;
     @Attribute
     private ModelRef<Email> emailRef = new ModelRef<Email>(Email.class);
